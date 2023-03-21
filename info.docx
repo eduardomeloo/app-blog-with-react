@@ -2,3 +2,4 @@ cd client
 npm create react-app .
 npm start
 Limpar o arquivo app JS e app.css
+npm i react-router-dom
