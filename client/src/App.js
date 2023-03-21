@@ -16,13 +16,14 @@ function App() {
             </div>
             <div className="texts">
                 <h2 className="">Design moderno para sua casa</h2>
-                <p className="">
+                <p className="info">
+                    <a className="author">Eduardo Melo</a>
+                    <time>20/03/2023 21:37</time>
+                </p>
+                <p className="summary">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
                     sed do eiusmod tempor incididunt ut labore et dolore magna 
                     aliqua. Ut enim ad minim veniam, quis nostrud exercitation 
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-                    Duis aute irure dolor in reprehenderit in voluptate velit 
-                    esse cillum dolore eu f
                 </p>   
             </div>
         </div>
@@ -32,14 +33,15 @@ function App() {
             </div>
             <div className="texts">
                 <h2 className="">Design moderno para sua casa</h2>
-                <p className="">
+                <p className="info">
+                    <a className="author">Eduardo Melo</a>
+                    <time>20/03/2023 21:37</time>
+                </p>
+                <p className="summary">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
                     sed do eiusmod tempor incididunt ut labore et dolore magna 
                     aliqua. Ut enim ad minim veniam, quis nostrud exercitation 
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-                    Duis aute irure dolor in reprehenderit in voluptate velit 
-                    esse cillum dolore eu f
-                </p>   
+                </p>  
             </div>
         </div>
         <div className="post">
@@ -48,13 +50,14 @@ function App() {
             </div>
             <div className="texts">
                 <h2 className="">Design moderno para sua casa</h2>
-                <p className="">
+                <p className="info">
+                    <a className="author">Eduardo Melo</a>
+                    <time>20/03/2023 21:37</time>
+                </p>
+                <p className="summary">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
                     sed do eiusmod tempor incididunt ut labore et dolore magna 
                     aliqua. Ut enim ad minim veniam, quis nostrud exercitation 
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-                    Duis aute irure dolor in reprehenderit in voluptate velit 
-                    esse cillum dolore eu fsdsd
                 </p>   
             </div>
         </div>
