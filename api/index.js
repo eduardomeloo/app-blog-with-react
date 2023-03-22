@@ -1,12 +1,14 @@
 require('dotenv').config();
-const express = require('express');
-const app = express();
+const cors = require('cors')
+const app = require('express')();
 const consign = require('consign');
 const path = require('path');
 
-consign({cwd: path.join(__dirname)})
+app.use(cors())
+
+consign({cwd: path.join(__dirname) })
     .include('/api')
-    .then('/routes')
+    .then('/routes/routes.js')
     .into(app)
 
 app.listen(process.env.SERVER_PORT || 4001, () => {

@@ -1,4 +1,4 @@
-module.exports = app => {
-    app.route('/test')
-        .get(app.api.model.test)
+module.exports = app => {  
+    app.route('/register')
+        .post(app.api.auth.register)
 }
