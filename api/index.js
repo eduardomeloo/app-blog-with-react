@@ -1,13 +1,12 @@
 require('dotenv').config();
-const cors = require('cors')
 const app = require('express')();
 const consign = require('consign');
 const path = require('path');
-
-app.use(cors())
+app.modelUser = require(path.join(__dirname, '/db/models/User'));
 
 consign({cwd: path.join(__dirname) })
     .include('/api')
+    .then('/config')
     .then('/routes/routes.js')
     .into(app)
 
