@@ -1,4 +1,5 @@
 module.exports = app => {  
-    app.route('/register')
-        .post(app.api.auth.register)
+    app.post('/register', app.api.auth.register)
+    app.post('/login', app.api.auth.login)
+
 }
