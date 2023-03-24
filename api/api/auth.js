@@ -31,5 +31,15 @@ module.exports = app => {
         }
     }
 
-    return { register, login }
+    const profile = async (req, res) => {
+        const {token} = req.cookies;
+        jwt.verify(token, process.env.SECRET_KEY, {}, (err, info) => {
+            if (err) throw err;
+            res.json(info);
+        });
+
+        //res.json(req.cookies);
+    }
+
+    return { register, login, profile }
 }
