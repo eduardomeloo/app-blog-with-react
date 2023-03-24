@@ -33,13 +33,22 @@ module.exports = app => {
 
     const profile = async (req, res) => {
         const {token} = req.cookies;
-        jwt.verify(token, process.env.SECRET_KEY, {}, (err, info) => {
-            if (err) throw err;
-            res.json(info);
-        });
+        if(token) {
+            jwt.verify(token, process.env.SECRET_KEY, {}, (err, info) => {
+                if (err) throw err;
+                res.json(info);
+            });
+        } else {
+            res.status(400).json('wrong credentials')
+        }
+        
 
         //res.json(req.cookies);
     }
 
-    return { register, login, profile }
+    const logout = async (req, res) => {
+        res.cookie('token', '').json('ok');
+    }
+
+    return { register, login, profile, logout }
 }
