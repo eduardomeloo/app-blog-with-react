@@ -1,4 +1,5 @@
 const bcrypt = require("bcryptjs");
+const jwt    = require('jsonwebtoken');
 
 module.exports = app => {
     const register = async (req, res) => {
@@ -17,8 +18,17 @@ module.exports = app => {
 
     const login = async (req, res) => {
         const {username, password} = req.body;
-        const userDoc = await app.modelUser.findOne({username})
-        res.json(userDoc)
+        const userDoc = await app.modelUser.findOne({username});
+        const passOk = bcrypt.compareSync(password, userDoc.password);
+        if (passOk) {
+            jwt.sign({username, id:userDoc._id}, process.env.SECRET_KEY, {}, (err, token) => {
+                if (err) throw err;
+                res.cookie('token', token).json('ok');
+            })
+            
+        } else {
+            res.status(400).json('wrong credentials')
+        }
     }
 
     return { register, login }
