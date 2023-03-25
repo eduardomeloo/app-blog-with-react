@@ -6,7 +6,7 @@ export default function LoginPage() {
     const [username, setUsername] = useState('');
     const [password, setpassword] = useState('');
     const [redirect, setRedirect] = useState(false);
-    const {userInfo, setUserInfo} = useContext(UserContext)
+    const {setUserInfo} = useContext(UserContext)
 
     async function login(ev) {
         ev.preventDefault();
