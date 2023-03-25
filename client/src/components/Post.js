@@ -7,7 +7,7 @@ export default function Post() {
             <div className="texts">
                 <h2 className="">Design moderno para sua casa</h2>
                 <p className="info">
-                    <a className="author">Eduardo Melo</a>
+                    <a href="/" className="author">Eduardo Melo</a>
                     <time>20/03/2023 21:37</time>
                 </p>
                 <p className="summary">
