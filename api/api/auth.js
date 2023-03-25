@@ -23,7 +23,10 @@ module.exports = app => {
         if (passOk) {
             jwt.sign({username, id:userDoc._id}, process.env.SECRET_KEY, {}, (err, token) => {
                 if (err) throw err;
-                res.cookie('token', token).json('ok');
+                res.cookie('token', token).json({
+                    id:userDoc._id,
+                    username
+                });
             })
             
         } else {
