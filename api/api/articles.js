@@ -1,4 +1,5 @@
-const fs = require('fs')
+const fs = require('fs');
+const jwt = require('jsonwebtoken');
 module.exports = app => {
     const saveNewArticle = async (req, res) =>  {
 
@@ -12,22 +13,27 @@ module.exports = app => {
             fs.renameSync(path, newPath);
             cover = newPath;
         }
-        
-        const {title, summary, content} = req.body;
 
-        const postDoc = await app.modelPost.create({
-            title,
-            summary,
-            content,
-            cover
-        });
+        const {token} = req.cookies;
 
-        res.json(postDoc);
+        jwt.verify(token, process.env.SECRET_KEY, {}, async (err, info) => {
+            if (err) throw err;
+            const {title, summary, content} = req.body;
+
+            const postDoc = await app.modelPost.create({
+                title,
+                summary,
+                content,
+                cover,
+                author: info.id
+            });
+
+            res.json(postDoc);
+        });        
     }
 
     const getArticles = async (req, res) => {
-        //const posts = await app.modelPost.find();
-        res.json(await app.modelPost.find());
+        res.json(await app.modelPost.find().populate('author', ['username']));
     }
     return {saveNewArticle, getArticles}
 }

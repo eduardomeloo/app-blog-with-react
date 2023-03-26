@@ -5,6 +5,10 @@ const path = require('path');
 app.modelUser = require(path.join(__dirname, '/db/models/User'));
 app.modelPost = require(path.join(__dirname, '/db/models/Post'));
 
+//Deletar Registros
+//(async () => await app.modelPost.deleteMany())();
+//(async () => await app.modelUser.deleteMany())();
+
 consign({cwd: path.join(__dirname) })
     .include('/api')
     .then('/config')
