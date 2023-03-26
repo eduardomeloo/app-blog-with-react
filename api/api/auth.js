@@ -19,16 +19,20 @@ module.exports = app => {
     const login = async (req, res) => {
         const {username, password} = req.body;
         const userDoc = await app.modelUser.findOne({username});
-        const passOk = bcrypt.compareSync(password, userDoc.password);
-        if (passOk) {
-            jwt.sign({username, id:userDoc._id}, process.env.SECRET_KEY, {}, (err, token) => {
-                if (err) throw err;
-                res.cookie('token', token).json({
-                    id:userDoc._id,
-                    username
-                });
-            })
-            
+        if(userDoc) {
+            const passOk = bcrypt.compareSync(password, userDoc.password);
+            if (passOk) {
+                jwt.sign({username, id:userDoc._id}, process.env.SECRET_KEY, {}, (err, token) => {
+                    if (err) throw err;
+                    res.cookie('token', token).json({
+                        id:userDoc._id,
+                        username
+                    });
+                })
+                
+            } else {
+                res.status(400).json('wrong credentials')
+            }
         } else {
             res.status(400).json('wrong credentials')
         }

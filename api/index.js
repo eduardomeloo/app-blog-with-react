@@ -3,6 +3,7 @@ const app = require('express')();
 const consign = require('consign');
 const path = require('path');
 app.modelUser = require(path.join(__dirname, '/db/models/User'));
+app.modelPost = require(path.join(__dirname, '/db/models/Post'));
 
 consign({cwd: path.join(__dirname) })
     .include('/api')
