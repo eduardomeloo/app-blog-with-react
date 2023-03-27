@@ -12,7 +12,18 @@ export default function PostPage() {
                 });
             });
     }, []);
+
+    if(!postInfo) return '';
+
     return (
-        <div>Post Page</div>
+        <div className="post-page">
+            <div>
+                <div className="image">
+                    <img src={`http://localhost:4001/${postInfo.cover}`} alt="" />
+                </div>
+            </div>
+            <h1>{postInfo.title}</h1>
+            <div dangerouslySetInnerHTML={{__html:postInfo.content}} />
+        </div>
     );
 }
