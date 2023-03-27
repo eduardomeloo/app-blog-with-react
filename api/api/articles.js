@@ -33,7 +33,12 @@ module.exports = app => {
     }
 
     const getArticles = async (req, res) => {
-        res.json(await app.modelPost.find().populate('author', ['username']));
+        res.json(
+            await app.modelPost.find()
+                .populate('author', ['username'])
+                .sort({createdAt: -1})
+                .limit(2)
+        );
     }
     return {saveNewArticle, getArticles}
 }

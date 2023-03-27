@@ -3,7 +3,7 @@ export default function Post({title, summary, cover, content, createdAt, author}
     return (
         <div className="post">
             <div className="image">
-                <img src="https://images.unsplash.com/photo-1679215805552-e28a96550a23?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80" alt="" className="" />
+                <img src={'http://localhost:4001/'+cover} alt="" className="" />
             </div>
             <div className="texts">
                 <h2 className="">{title}</h2>

@@ -40,7 +40,6 @@ export default function CreatePost() {
             method: 'POST',
             credentials: 'include',
             body: data,
-            credentials: 'include'
         })
 
         if(response.ok) {
