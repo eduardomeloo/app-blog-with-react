@@ -40,5 +40,11 @@ module.exports = app => {
                 .limit(2)
         );
     }
-    return {saveNewArticle, getArticles}
+
+    const getArticlesById = async (req, res) => {
+        const {id} = req.params;
+        res.json(await app.modelPost.findById(id).populate('author', ['username']));
+    }
+
+    return {saveNewArticle, getArticles, getArticlesById}
 }

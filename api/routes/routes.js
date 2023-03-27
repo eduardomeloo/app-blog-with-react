@@ -10,5 +10,5 @@ module.exports = app => {
     app.get('/profile', app.api.auth.profile);
     app.post('/post', uploadMiddleware.single('file'), app.api.articles.saveNewArticle);
     app.get('/post', app.api.articles.getArticles);
-    
+    app.get('/post/:id', app.api.articles.getArticlesById);    
 }
