@@ -4,9 +4,13 @@ export default function RegisterPage() {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
+    const apiUrl =  process.env.REACT_APP_MODE_PRODUCAO === 'FALSE' ?
+                    process.env.REACT_APP_API_HOMOLOGACAO :
+                    process.env.REACT_APP_API_PRODUCAO
+
     async function register(ev) {
         ev.preventDefault();
-        const response = await fetch('http://localhost:4001/register', {
+        const response = await fetch(apiUrl+'/register', {
             method: 'POST',
             body: JSON.stringify({username, password}),
             headers: {'Content-Type':'application/json'},

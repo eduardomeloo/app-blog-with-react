@@ -7,8 +7,13 @@ export default function PostPage() {
     const [postInfo, setPostInfo] = useState(null);
     const {userInfo} = useContext(UserContext);
     const {id} = useParams();
+
+    const apiUrl =  process.env.REACT_APP_MODE_PRODUCAO === 'FALSE' ?
+                    process.env.REACT_APP_API_HOMOLOGACAO :
+                    process.env.REACT_APP_API_PRODUCAO
+
     useEffect(() => {
-        fetch(`http://localhost:4001/post/${id}`)
+        fetch(`${apiUrl}/post/${id}`)
             .then(res => {
                 res.json().then(postInfo => {
                     setPostInfo(postInfo);
@@ -36,7 +41,7 @@ export default function PostPage() {
             ) : null}
             <div>
                 <div className="image">
-                    <img src={`http://localhost:4001/${postInfo.cover}`} alt="" />
+                    <img src={`${apiUrl}/${postInfo.cover}`} alt="" />
                 </div>
             </div>
             <div className="content" dangerouslySetInnerHTML={{__html:postInfo.content}} />

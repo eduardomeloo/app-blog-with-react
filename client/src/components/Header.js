@@ -5,8 +5,13 @@ import { UserContext } from "../context/UserContext";
 
 export default function Header(){
     const {userInfo, setUserInfo} = useContext(UserContext)
+
+    const apiUrl = process.env.REACT_APP_MODE_PRODUCAO === 'FALSE' ?
+                   process.env.REACT_APP_API_HOMOLOGACAO :
+                   process.env.REACT_APP_API_PRODUCAO
+
     useEffect(() => {
-        fetch('http://localhost:4001/profile', {credentials: 'include'})
+        fetch(apiUrl+'/profile', {credentials: 'include'})
             .then(res => {
                 res.json().then(userInfo => {
                     setUserInfo(userInfo);
@@ -15,7 +20,7 @@ export default function Header(){
     }, []);
 
     function logout() {
-        fetch('http://localhost:4001/logout', {
+        fetch(apiUrl+'/logout', {
             credentials: 'include',
             method: 'POST'
         });

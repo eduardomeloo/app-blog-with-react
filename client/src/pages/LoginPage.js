@@ -8,9 +8,13 @@ export default function LoginPage() {
     const [redirect, setRedirect] = useState(false);
     const {setUserInfo} = useContext(UserContext)
 
+    const apiUrl =  process.env.REACT_APP_MODE_PRODUCAO === 'FALSE' ?
+                    process.env.REACT_APP_API_HOMOLOGACAO :
+                    process.env.REACT_APP_API_PRODUCAO
+
     async function login(ev) {
         ev.preventDefault();
-        const response = await fetch('http://localhost:4001/login', {
+        const response = await fetch(apiUrl+'/login', {
             method: 'POST',
             body: JSON.stringify({username, password}),
             headers: {'Content-Type':'application/json'},

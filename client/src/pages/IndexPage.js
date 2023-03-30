@@ -4,8 +4,12 @@ import { useEffect, useState } from "react";
 export default function IndexPage () {
     const [posts, setPosts] = useState([]);
 
+    const apiUrl =  process.env.REACT_APP_MODE_PRODUCAO === 'FALSE' ?
+                    process.env.REACT_APP_API_HOMOLOGACAO :
+                    process.env.REACT_APP_API_PRODUCAO
+
     useEffect(() => {
-        fetch('http://localhost:4001/post').then(resp => {
+        fetch(apiUrl+'/post').then(resp => {
             resp.json().then(posts => {
                 setPosts(posts);
             });

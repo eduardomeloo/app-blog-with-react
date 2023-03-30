@@ -8,9 +8,13 @@ export default function EditPost() {
     const [content, setContent] = useState('');
     const [files, setFiles] = useState('');
     const [redirect, setRedirect] = useState(false);
+    
+    const apiUrl = process.env.REACT_APP_MODE_PRODUCAO === 'FALSE' ?
+                   process.env.REACT_APP_API_HOMOLOGACAO :
+                   process.env.REACT_APP_API_PRODUCAO
 
-    useEffect(() => {
-        fetch('http://localhost:4001/post/'+id)
+     useEffect(() => {
+        fetch(apiUrl+'/post/'+id)
             .then(res => {
                 res.json().then(postInfo => {
                     setTitle(postInfo.title);
@@ -31,12 +35,15 @@ export default function EditPost() {
             data.set('file', files?.[0]);
         }
         
-        const response = await fetch('http://localhost:4001/post/', {
+        const response = await fetch(apiUrl+'/post/', {
             method: 'PUT',
             body: data,
             credentials: 'include'
         });
-        setRedirect(true);
+
+        if(response.ok) {
+            setRedirect(true);
+        }
     }
     
     if(redirect) {
