@@ -1,7 +1,7 @@
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
 module.exports = app => {
-    const saveNewArticle = async (req, res) =>  {
+    const saveArticle = async (req, res) =>  {
 
         let cover = null;
 
@@ -19,16 +19,35 @@ module.exports = app => {
         jwt.verify(token, process.env.SECRET_KEY, {}, async (err, info) => {
             if (err) throw err;
             const {title, summary, content} = req.body;
+            if(!req.body.id) {
+                //Cria novo artigo
+                const postDoc = await app.modelPost.create({
+                    title,
+                    summary,
+                    content,
+                    cover,
+                    author: info.id
+                });
 
-            const postDoc = await app.modelPost.create({
-                title,
-                summary,
-                content,
-                cover,
-                author: info.id
-            });
+                res.json(postDoc);
+            } else {
+                const postDoc = await app.modelPost.findById(req.body.id);
+                const isAuthor = JSON.stringify(postDoc.author) === JSON.stringify(info.id)
 
-            res.json(postDoc);
+                if(!isAuthor) {
+                    return res.status(400).json('you are not the author');
+                }
+
+                await postDoc.updateOne({
+                    title,
+                    summary,
+                    content,
+                    cover: req.file ? cover : postDoc.cover
+                })
+
+                res.status(200).json();
+            }
+           
         });        
     }
 
@@ -46,5 +65,5 @@ module.exports = app => {
         res.json(await app.modelPost.findById(id).populate('author', ['username']));
     }
 
-    return {saveNewArticle, getArticles, getArticlesById}
+    return {saveArticle, getArticles, getArticlesById}
 }

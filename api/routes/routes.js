@@ -8,7 +8,8 @@ module.exports = app => {
     app.post('/login', app.api.auth.login);
     app.post('/logout', app.api.auth.logout);
     app.get('/profile', app.api.auth.profile);
-    app.post('/post', uploadMiddleware.single('file'), app.api.articles.saveNewArticle);
+    app.post('/post', uploadMiddleware.single('file'), app.api.articles.saveArticle);
+    app.put('/post', uploadMiddleware.single('file'), app.api.articles.saveArticle);
     app.get('/post', app.api.articles.getArticles);
     app.get('/post/:id', app.api.articles.getArticlesById);    
 }
