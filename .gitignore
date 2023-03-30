@@ -22,7 +22,6 @@ client/*.ntvs*
 client/*.njsproj
 client/*.sln
 client/*.sw?
-client/.env
 
 api/node_modules
 api/.env

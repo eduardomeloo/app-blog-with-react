@@ -34,6 +34,17 @@ module.exports = app => {
                 const postDoc = await app.modelPost.findById(req.body.id);
                 const isAuthor = JSON.stringify(postDoc.author) === JSON.stringify(info.id)
 
+                if(req.file && postDoc.cover) {
+                    if (fs.existsSync(postDoc.cover)) {
+                        fs.unlink(postDoc.cover, (err) => {
+                          if (err) throw err;
+                          console.log('Arquivo removido com sucesso!');
+                        });
+                      } else {
+                        console.log('Arquivo não encontrado');
+                      }
+                }
+
                 if(!isAuthor) {
                     return res.status(400).json('you are not the author');
                 }
