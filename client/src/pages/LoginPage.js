@@ -37,18 +37,37 @@ export default function LoginPage() {
     }
 
     return (
-        <form className="login" onSubmit={login}>
-            <h1>Login</h1>
+        <div>
+            <form className="login" onSubmit={login}>
+                <h1>Login</h1>
+                <input  type="text" placeholder="username" 
+                        value={username}
+                        onChange={ev => setUsername(ev.target.value)} />
 
-            <input  type="text" placeholder="username" 
-                    value={username}
-                    onChange={ev => setUsername(ev.target.value)} />
+                <input  type="password" placeholder="password" value={password}
+                        autoComplete="new-password"
+                        onChange={ev => setpassword(ev.target.value)}  />
 
-            <input  type="password" placeholder="password" value={password}
-                    autoComplete="new-password"
-                    onChange={ev => setpassword(ev.target.value)}  />
+                <button type="">Login</button>
+            </form>
 
-            <button type="">Login</button>
-        </form>
+            <div className="table-wrapper">
+                <table>
+                    <caption>Acesso para teste</caption>
+                    <thead>
+                        <tr>
+                            <th>Usuário</th>
+                            <th>Senha</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>teste</td>
+                            <td>teste</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     );
 }

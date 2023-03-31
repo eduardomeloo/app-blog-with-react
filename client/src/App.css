@@ -159,3 +159,41 @@ div.post-page a.edit-btn {
 a svg {
     height: 20px;
 }
+
+/* Estilos para a tabela */
+table {
+    border-collapse: collapse;
+    width: auto;
+    max-width: 600px;
+    margin: 0 auto;
+    margin-top: 20px;
+  }
+  
+  th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  /* Estilos para o título */
+  table caption {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  /* Estilos para a primeira coluna */
+  th:first-child, td:first-child {
+    width: 50%;
+  }
+  
+  /* Estilos para as células das colunas */
+  th, td {
+    width: 25%;
+  }
+  
+  /* Estilos para as linhas pares */
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  

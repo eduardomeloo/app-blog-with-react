@@ -13,6 +13,7 @@ consign({cwd: path.join(__dirname) })
     .include('/api')
     .then('/config')
     .then('/routes/routes.js')
+    .then('/jobs')
     .into(app)
 
 app.listen(process.env.SERVER_PORT || 4001, () => {
