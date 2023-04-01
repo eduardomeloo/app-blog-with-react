@@ -14,9 +14,9 @@ dotenv.config();
 //Executa todos os dias de 30 em 30 segundos */30 * * * * *
 
 module.exports = app => {
-    //schedule.scheduleJob('*/30 * * * * *' , async function () {
+    schedule.scheduleJob('0 6 */1 * *' , async function () {
         //if (process.env.NODE_APP_INSTANCE == 1) {}
-        /*
+        
             await app.modelPost.deleteMany().then().catch(err => console.error(err));
             await app.modelUser.deleteMany().then().catch(err => console.error(err));
 
@@ -34,56 +34,76 @@ module.exports = app => {
                 if(err) throw err;
                 res.status(500).json('error')
             }
-        */
-        (async () => {
-            console.log('entrou aqui')
-            const browser = await puppeteer.launch();
-            const page = await browser.newPage();
-            await page.goto('https://www.tecmundo.com.br/');
-            
-            const elements = await page.$$('#listaMaisLidasHoje > div');
-
-            const links = []
-
-            for(const element of elements) {
-                
-                links.push(await page.evaluate(el => el.querySelector("div > article > div > h3 > a")
-                    .getAttribute("href"), element));
-            }
-
-            for (const link of links) {
-                await page.goto(link);
-                const title = await page.$eval('#js-article-title', title => title.textContent);
-                console.log(title)
-                const img = await page.$eval('#js-article-image > picture > img', img => img.getAttribute("data-src"));
-                console.log(img)
-                const content = await page.$eval('#js-main > div > article > div.tec--article__body-grid > div.tec--article__body', content => content.innerHTML);
-                console.log(content)
-                // newsData.push({ title, author, content });
-                // await page.goBack();
-            }
-
-        })();
-
-            
-            // await browser.close();
-            // return newsData;
         
+            (async () => {
+                console.log('entrou aqui')
+                const browser = await puppeteer.launch();
+                const page = await browser.newPage();
+                await page.goto('https://www.tecmundo.com.br/');
+                
+                const elements = await page.$$('#listaMaisLidasHoje > div');
 
-        //await scrapeNews()
-        /*
-        try {
-            const folderPath = path.join(__dirname, '../uploads')
-            const files = await fs.readdir(folderPath);
-            if(files.length > 0) {
-                for (const file of files) {
-                    await fs.unlink(path.resolve(folderPath, file));
-                    console.log(`${folderPath}/${file} has been removed successfully`);
+                const links = []
+
+                for(const element of elements) {
+                    
+                    links.push(await page.evaluate(el => el.querySelector("div > article > div > h3 > a")
+                        .getAttribute("href"), element));
                 }
+
+                for (const link of links) {
+                    await page.goto(link);
+                    //get title
+                    const title = await page.$eval('#js-article-title', title => title.textContent);
+
+                    //get summary
+                    let summary = '';
+                    try {
+                        summary = await page.$eval('#js-main > div.z--container > article > div.tec--article__body-grid > div.tec--article__body.z--px-16 > p:nth-child(1)', summary => summary.textContent);
+                    } catch (error) {
+
+                    }
+
+                    //get image
+                    const imgUrl = await page.$eval('#js-article-image > picture > img', img => img.getAttribute("data-src"));
+                    const getExt = imgUrl.split('.')
+                    const getLastPart = getExt[getExt.length-1]
+                    let ext = '';
+                    ext = getLastPart.includes('?') ? getLastPart.split('?')[0] : getLastPart
+                    await page.goto(imgUrl);
+                    let imagemName = `imagem_${Date.now()}.${ext}`
+                    let cover = `uploads/${imagemName}`
+                    await page.screenshot({ path: cover });
+                    await page.goBack();
+
+                    //get image
+                    const content = await page.$eval('#js-main > div > article > div.tec--article__body-grid > div.tec--article__body', content => content.innerHTML.replaceAll('data-src=', 'src='));
+
+                    const userDoc = await app.modelUser.findOne({username:"teste"});
+                
+                    await app.modelPost.create({
+                        title,
+                        summary,
+                        content,
+                        cover,
+                        author: userDoc._id
+                    });
+                    
+                }
+                await browser.close()
+            })();
+
+            try {
+                const folderPath = path.join(__dirname, '../uploads')
+                const files = await fs.readdir(folderPath);
+                if(files.length > 0) {
+                    for (const file of files) {
+                        await fs.unlink(path.resolve(folderPath, file));
+                        console.log(`${folderPath}/${file} has been removed successfully`);
+                    }
+                }
+            } catch (err){
+                console.log(err);
             }
-        } catch (err){
-            console.log(err);
-        }
-    */
-  //  })
+    })
 }

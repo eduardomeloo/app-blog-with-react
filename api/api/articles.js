@@ -66,7 +66,7 @@ module.exports = app => {
             await app.modelPost.find()
                 .populate('author', ['username'])
                 .sort({createdAt: -1})
-                .limit(2)
+                .limit(10)
         );
     }
 
