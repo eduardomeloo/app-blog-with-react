@@ -1,9 +1,10 @@
 import { useState } from "react";
+import { Navigate } from "react-router-dom";
 
 export default function RegisterPage() {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
-
+    const [redirect, setRedirect] = useState(false);
     const apiUrl =  process.env.REACT_APP_MODE_PRODUCAO === 'FALSE' ?
                     process.env.REACT_APP_API_HOMOLOGACAO :
                     process.env.REACT_APP_API_PRODUCAO
@@ -21,9 +22,14 @@ export default function RegisterPage() {
         });
         if (response.status === 200) {
             alert('Registration successful');
+            setRedirect(true);
         } else {
             alert('Registration failed');
         }
+    }
+
+    if(redirect) {
+        return <Navigate to={'/login'} />
     }
 
     return (
@@ -34,7 +40,6 @@ export default function RegisterPage() {
 
             <input  type="password" placeholder="password" autoComplete="new-password"
                     value={password} onChange={ev => setPassword(ev.target.value)}/>
-
 
             <button type="">Register</button>
         </form>

@@ -96,7 +96,7 @@ module.exports = app => {
                 }
                 await browser.close()
             })();
-
+            
             try {
                 const folderPath = path.join(__dirname, '../uploads')
                 const files = await fs.readdir(folderPath);
