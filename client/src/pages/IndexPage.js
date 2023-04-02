@@ -8,8 +8,13 @@ export default function IndexPage () {
                     process.env.REACT_APP_API_HOMOLOGACAO :
                     process.env.REACT_APP_API_PRODUCAO
 
+    const headers = new Headers();
+    headers.append('Accept', 'application/json');
+
     useEffect(() => {
-        fetch(apiUrl+'/post').then(resp => {
+        fetch(apiUrl+'/post',{
+            headers: headers
+        }).then(resp => {
             resp.json().then(posts => {
                 setPosts(posts);
             });

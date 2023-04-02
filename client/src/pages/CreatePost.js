@@ -10,6 +10,9 @@ export default function CreatePost() {
     const [files, setFiles]       = useState('');
     const [redirect, setRedirect] = useState(false);
 
+    const headers = new Headers();
+    headers.append('Accept', 'application/json');
+
     const apiUrl =  process.env.REACT_APP_MODE_PRODUCAO === 'FALSE' ?
                     process.env.REACT_APP_API_HOMOLOGACAO :
                     process.env.REACT_APP_API_PRODUCAO
@@ -24,6 +27,7 @@ export default function CreatePost() {
         ev.preventDefault();
         
         const response = await fetch(apiUrl+'/post', {
+            headers: headers,
             method: 'POST',
             credentials: 'include',
             body: data,

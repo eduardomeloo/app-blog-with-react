@@ -1,8 +1,10 @@
 const multer = require('multer');
+const path         = require('path');
 const uploadMiddleware = multer({ 
-    dest: 'uploads/',
+    dest: path.join(__dirname, '../uploads'),
     limits: { fieldSize: 25 * 1024 * 1024 } // 25MB
 });
+
 module.exports = app => {  
     app.post('/register', app.api.auth.register);
     app.post('/login', app.api.auth.login);

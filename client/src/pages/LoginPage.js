@@ -8,6 +8,10 @@ export default function LoginPage() {
     const [redirect, setRedirect] = useState(false);
     const {setUserInfo} = useContext(UserContext)
 
+    const headers = new Headers();
+    headers.append('Accept', 'application/json');
+    headers.append('Content-Type','application/json');
+
     const apiUrl =  process.env.REACT_APP_MODE_PRODUCAO === 'FALSE' ?
                     process.env.REACT_APP_API_HOMOLOGACAO :
                     process.env.REACT_APP_API_PRODUCAO
@@ -17,7 +21,7 @@ export default function LoginPage() {
         const response = await fetch(apiUrl+'/login', {
             method: 'POST',
             body: JSON.stringify({username, password}),
-            headers: {'Content-Type':'application/json'},
+            headers: headers,
             credentials: 'include'
         });
 

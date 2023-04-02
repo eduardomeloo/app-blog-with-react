@@ -9,13 +9,17 @@ export default function EditPost() {
     const [files, setFiles] = useState('');
     const [redirect, setRedirect] = useState(false);
     
+    const headers = new Headers();
+    headers.append('Accept', 'application/json');
+
     const apiUrl = process.env.REACT_APP_MODE_PRODUCAO === 'FALSE' ?
                    process.env.REACT_APP_API_HOMOLOGACAO :
                    process.env.REACT_APP_API_PRODUCAO
 
      useEffect(() => {
-        fetch(apiUrl+'/post/'+id)
-            .then(res => {
+        fetch(apiUrl+'/post/'+id, {
+            headers: headers
+        }).then(res => {
                 res.json().then(postInfo => {
                     setTitle(postInfo.title);
                     setContent(postInfo.content);
@@ -36,6 +40,7 @@ export default function EditPost() {
         }
         
         const response = await fetch(apiUrl+'/post/', {
+            headers: headers,
             method: 'PUT',
             body: data,
             credentials: 'include'

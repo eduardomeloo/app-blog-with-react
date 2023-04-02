@@ -10,8 +10,14 @@ export default function Header(){
                    process.env.REACT_APP_API_HOMOLOGACAO :
                    process.env.REACT_APP_API_PRODUCAO
 
+    const headers = new Headers();
+    headers.append('Accept', 'application/json');
+    
     useEffect(() => {
-        fetch(apiUrl+'/profile', {credentials: 'include'})
+        fetch(apiUrl+'/profile', {
+            credentials: 'include',
+            headers: headers, 
+        })
             .then(res => {
                 res.json().then(userInfo => {
                     setUserInfo(userInfo);
@@ -21,6 +27,7 @@ export default function Header(){
 
     function logout() {
         fetch(apiUrl+'/logout', {
+            headers: headers,
             credentials: 'include',
             method: 'POST'
         });

@@ -8,12 +8,16 @@ export default function RegisterPage() {
                     process.env.REACT_APP_API_HOMOLOGACAO :
                     process.env.REACT_APP_API_PRODUCAO
 
+    const headers = new Headers();
+    headers.append('Accept', 'application/json');
+    headers.append('Content-Type','application/json');
+
     async function register(ev) {
         ev.preventDefault();
         const response = await fetch(apiUrl+'/register', {
             method: 'POST',
             body: JSON.stringify({username, password}),
-            headers: {'Content-Type':'application/json'},
+            headers: headers
         });
         if (response.status === 200) {
             alert('Registration successful');

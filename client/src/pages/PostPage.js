@@ -8,13 +8,17 @@ export default function PostPage() {
     const {userInfo} = useContext(UserContext);
     const {id} = useParams();
 
+    const headers = new Headers();
+    headers.append('Accept', 'application/json');
+
     const apiUrl =  process.env.REACT_APP_MODE_PRODUCAO === 'FALSE' ?
                     process.env.REACT_APP_API_HOMOLOGACAO :
                     process.env.REACT_APP_API_PRODUCAO
 
     useEffect(() => {
-        fetch(`${apiUrl}/post/${id}`)
-            .then(res => {
+        fetch(`${apiUrl}/post/${id}`, {
+            headers: headers
+        }).then(res => {
                 res.json().then(postInfo => {
                     setPostInfo(postInfo);
                 });

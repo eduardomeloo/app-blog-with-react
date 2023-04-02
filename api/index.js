@@ -18,4 +18,4 @@ consign({cwd: path.join(__dirname) })
 
 app.listen(process.env.SERVER_PORT || 4001, () => {
     console.log(`Backend Executanto na porta: ${process.env.SERVER_PORT || 4001}`);
-})
+})  

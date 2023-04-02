@@ -4,14 +4,16 @@ module.exports = app => {
     const saveArticle = async (req, res) =>  {
 
         let cover = null;
+        let saveCover = null;
 
         if(req.file) {
-            const {originalname, path} = req.file
+            const {originalname, path, filename} = req.file
             const parts = originalname.split('.');
             const extension = parts[parts.length - 1]
             const newPath = path + '.' + extension;
             fs.renameSync(path, newPath);
             cover = newPath;
+            saveCover = `uploads/${filename}.${extension}`
         }
 
         const {token} = req.cookies;
@@ -25,7 +27,7 @@ module.exports = app => {
                     title,
                     summary,
                     content,
-                    cover,
+                    cover: saveCover,
                     author: info.id
                 });
 
@@ -53,7 +55,7 @@ module.exports = app => {
                     title,
                     summary,
                     content,
-                    cover: req.file ? cover : postDoc.cover
+                    cover: req.file ? saveCover : postDoc.cover
                 })
 
                 res.status(200).json();

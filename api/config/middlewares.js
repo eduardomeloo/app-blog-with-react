@@ -1,14 +1,17 @@
-const express      = require('express')
-const cors         = require('cors')
-const cookieParser = require('cookie-parser')
-
-const path = require('path')
+const express      = require('express');
+const cors         = require('cors');
+const cookieParser = require('cookie-parser');
+const history      = require('connect-history-api-fallback');
+const path         = require('path');
 
 module.exports = app => {
-    //app.use(cors({credentials: true, origin: 'http://localhost:3000'}))
-    app.use(cors({origin: true, optionsSuccessStatus: 200, credentials: true }));
-    app.options('*', cors({origin: true, optionsSuccessStatus: 200, credentials: true}));
-    app.use(express.json())
-    app.use(cookieParser())
-    app.use('/uploads', express.static(path.join(__dirname, '../uploads')))
+    app.use(cors({
+      origin: ['https://www.appblog.eduardopmelo.com.br', 'https://appblog.eduardopmelo.com.br'],
+      credentials: true
+    }));
+    app.use(express.json());
+    app.use(cookieParser());
+    app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+    app.use(history());
+    app.use(express.static(path.join(__dirname, '../build/')))
 }

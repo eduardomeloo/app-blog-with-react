@@ -1,11 +1,16 @@
 import {formatISO9075, format} from 'date-fns'
 import { Link } from 'react-router-dom'
 export default function Post({_id, title, summary, cover, content, createdAt, author}) {
+
+    const apiUrl =  process.env.REACT_APP_MODE_PRODUCAO === 'FALSE' ?
+                    process.env.REACT_APP_API_HOMOLOGACAO :
+                    process.env.REACT_APP_API_PRODUCAO
+
     return (
         <div className="post">
             <div className="image">
                 <Link to={`/post/${_id}`} >
-                    <img src={'http://localhost:4001/'+cover} alt="" className="" />
+                    <img src={`${apiUrl}/${cover}`} alt="" className="" />
                 </Link>
             </div>
             <div className="texts">

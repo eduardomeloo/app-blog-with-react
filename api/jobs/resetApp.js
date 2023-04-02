@@ -15,7 +15,9 @@ dotenv.config();
 
 module.exports = app => {
     schedule.scheduleJob('0 6 */1 * *' , async function () {
-        //if (process.env.NODE_APP_INSTANCE == 1) {}
+        if (process.env.NODE_APP_INSTANCE == 1) {
+        
+          console.log('Iniciou a job')
         
             await app.modelPost.deleteMany().then().catch(err => console.error(err));
             await app.modelUser.deleteMany().then().catch(err => console.error(err));
@@ -36,9 +38,9 @@ module.exports = app => {
             }
         
             (async () => {
-                console.log('entrou aqui')
                 const browser = await puppeteer.launch();
                 const page = await browser.newPage();
+                await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36');
                 await page.goto('https://www.tecmundo.com.br/');
                 
                 const elements = await page.$$('#listaMaisLidasHoje > div');
@@ -70,10 +72,12 @@ module.exports = app => {
                     const getLastPart = getExt[getExt.length-1]
                     let ext = '';
                     ext = getLastPart.includes('?') ? getLastPart.split('?')[0] : getLastPart
+
                     await page.goto(imgUrl);
+
                     let imagemName = `imagem_${Date.now()}.${ext}`
                     let cover = `uploads/${imagemName}`
-                    await page.screenshot({ path: cover });
+                    await page.screenshot({ path: path.join(__dirname, `../${cover}`) });
                     await page.goBack();
 
                     //get image
@@ -105,5 +109,6 @@ module.exports = app => {
             } catch (err){
                 console.log(err);
             }
+        }
     })
 }
