@@ -14,7 +14,7 @@ dotenv.config();
 //Executa todos os dias de 30 em 30 segundos */30 * * * * *
 
 module.exports = app => {
-    schedule.scheduleJob('0 6 */1 * *' , async function () {
+    schedule.scheduleJob('0 10 */1 * *' , async function () {
         if (process.env.NODE_APP_INSTANCE == 1) {
         
           console.log('Iniciou a job')
@@ -44,6 +44,8 @@ module.exports = app => {
                 await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36');
                 await page.goto('https://www.tecmundo.com.br/');
                 
+                console.log('Site acessado com sucesso.')
+                
                 const elements = await page.$$('#listaMaisLidasHoje > div');
 
                 const links = []
@@ -58,17 +60,19 @@ module.exports = app => {
                     await page.goto(link);
                     //get title
                     const title = await page.$eval('#js-article-title', title => title.textContent);
-
+                    console.log('1- Titulo obtido');
                     //get summary
                     let summary = '';
                     try {
                         summary = await page.$eval('#js-main > div.z--container > article > div.tec--article__body-grid > div.tec--article__body.z--px-16 > p:nth-child(1)', summary => summary.textContent);
+                        console.log('2- Summary obtido');
                     } catch (error) {
 
                     }
 
                     //get image
                     const imgUrl = await page.$eval('#js-article-image > picture > img', img => img.getAttribute("data-src"));
+                    console.log('3- Imagem obtida');
                     const getExt = imgUrl.split('.')
                     const getLastPart = getExt[getExt.length-1]
                     let ext = '';
@@ -83,6 +87,7 @@ module.exports = app => {
 
                     //get image
                     const content = await page.$eval('#js-main > div > article > div.tec--article__body-grid > div.tec--article__body', content => content.innerHTML.replaceAll('data-src=', 'src='));
+                    console.log('4- Conteúdo obtido');
 
                     const userDoc = await app.modelUser.findOne({username:"teste"});
                 
