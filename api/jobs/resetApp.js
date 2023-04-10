@@ -34,10 +34,11 @@ module.exports = app => {
         
             } catch(err) {
                 if(err) throw err;
+                console.log('Erro no bloco de remoção/criação de usuários')
                 res.status(500).json('error')
             }
         
-            (async () => {
+            const scraping = async () => {
                 const browser = await puppeteer.launch();
                 const page = await browser.newPage();
                 await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36');
@@ -95,8 +96,8 @@ module.exports = app => {
                     
                 }
                 await browser.close()
-            })();
-            
+            };
+
             try {
                 const folderPath = path.join(__dirname, '../uploads')
                 const files = await fs.readdir(folderPath);
@@ -109,6 +110,14 @@ module.exports = app => {
             } catch (err){
                 console.log(err);
             }
+
+            try {
+                await scraping();
+            } catch(error) {
+                console.log('Erro ao realizar o scraping...')
+                console.log(error)
+            }
+            console.log('finalizou a excução da job')
         }
     })
 }
